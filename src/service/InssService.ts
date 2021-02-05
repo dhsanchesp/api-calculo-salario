@@ -6,42 +6,42 @@ export default class SalarioLiquidoService {
     async calcular(salarioBruto: number) {
         let valorINSS: number = 0.0;
         let valorINSSIteracao: number = 0.0;
+        let faixa:string;
     
         if (salarioBruto <= 1100.00) {
-            console.log(`FAIXA 1 - 7.5%`);
-            valorINSS = calcularValorAliquota(salarioBruto, 0.075);
+            faixa = `01 | Alíquota 7.5%`;
+            valorINSS = calcularValorAliquota(salarioBruto, tabelaINSS[0].aliquota);
         } else if (salarioBruto >= 1100.01 && salarioBruto <= 2203.48) {
-            console.log(`FAIXA 2 - 9.0%`);
+            faixa = `02 | Alíquiota 9.0%`;
             valorINSS = calcularValorAliquota(tabelaINSS[0].range, tabelaINSS[0].aliquota);
             valorINSS += calcularValorAliquota(salarioBruto-1100.01,0.09);
         } else if (salarioBruto >= 2203.49 && salarioBruto <= 3305.22) {
-            console.log(`FAIXA 3 - 12%`);
+            faixa = `03 | Alíquiota 12%`;
             valorINSS = calcularValorAliquota(tabelaINSS[0].range, tabelaINSS[0].aliquota);
             valorINSS += calcularValorAliquota(tabelaINSS[1].range, tabelaINSS[1].aliquota);
             valorINSS += calcularValorAliquota(salarioBruto-2203.49,0.12);
         } else if (salarioBruto >= 3305.23 && salarioBruto <= 6433.57) {
-            console.log(`FAIXA 4 - 14%`);
-            valorINSS = calcularValorAliquota(tabelaINSS[0].range, tabelaINSS[0].aliquota);
-            valorINSS += calcularValorAliquota(tabelaINSS[1].range, tabelaINSS[1].aliquota);
-            valorINSS += calcularValorAliquota(tabelaINSS[2].range, tabelaINSS[2].aliquota);
+            faixa = `04 | Alíquota 14%`;
+
+            for (let index = 0; index < 3; index++) {
+                valorINSS += calcularValorAliquota(tabelaINSS[index].range, tabelaINSS[index].aliquota);
+            }
             valorINSS += calcularValorAliquota(salarioBruto-3305.23,0.14);
         } else {
-            console.log(`TETO - 14%`);
-            valorINSS = calcularValorAliquota(tabelaINSS[0].range, tabelaINSS[0].aliquota);
-            valorINSS += calcularValorAliquota(tabelaINSS[1].range, tabelaINSS[1].aliquota);
-            valorINSS += calcularValorAliquota(tabelaINSS[2].range, tabelaINSS[2].aliquota);
-            valorINSS += calcularValorAliquota(tabelaINSS[3].range, tabelaINSS[3].aliquota);
+            faixa = 'TETO';
+            
+            tabelaINSS.forEach(element => {
+                valorINSS += calcularValorAliquota(element.range, element.aliquota);    
+            });
         }
     
         tabelaINSS.forEach(element => {
             valorINSSIteracao += calcularValorAliquota(element.range, element.aliquota);
         });
-    
-        console.log(`Valor INSS: ${valorINSS}`);
-        console.log(`Valor INSS pela iteração: ${valorINSSIteracao}`);
+
+        console.log(`Salário R$ ${salarioBruto} - FAIXA ${faixa} - Valor INSS R$ ${valorINSS}`);
     
         return Math.round((valorINSS + Number.EPSILON) * 100) / 100;
-
     }
 }
 
