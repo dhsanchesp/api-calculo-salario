@@ -3,4 +3,5 @@ export interface SalarioLiquidoResponseModel {
     outrosDescontos: number,
     inss: number,
     irrf: number,
+    salarioLiquido: number
 }

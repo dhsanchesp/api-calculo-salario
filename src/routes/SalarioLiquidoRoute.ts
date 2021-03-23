@@ -18,7 +18,7 @@ export default class SalarioLiquidoRoute {
 
         const salarioBruto: SalarioBrutoRequestModel = req.body;
         
-        const salarioLiquido: SalarioLiquidoResponseModel = await this.salarioLiquidoService.calcular(salarioBruto);
+        const salarioLiquido: SalarioLiquidoResponseModel = this.salarioLiquidoService.calcular(salarioBruto);
 
         return res.send(salarioLiquido);
     }
