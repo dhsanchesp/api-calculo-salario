@@ -3,9 +3,8 @@
  */
 export default class SalarioLiquidoService {
 
-    async calcular(salarioBruto: number) {
+    public calcular(salarioBruto: number): number {
         let valorINSS: number = 0.0;
-        let valorINSSIteracao: number = 0.0;
         let faixa:string;
     
         if (salarioBruto <= 1100.00) {
@@ -34,29 +33,11 @@ export default class SalarioLiquidoService {
                 valorINSS += calcularValorAliquota(element.range, element.aliquota);    
             });
         }
-    
-        tabelaINSS.forEach(element => {
-            valorINSSIteracao += calcularValorAliquota(element.range, element.aliquota);
-        });
-
-        console.log(`Salário R$ ${salarioBruto} - FAIXA ${faixa} - Valor INSS R$ ${valorINSS}`);
+        
+        console.log(`Salário R$ ${salarioBruto} | FAIXA ${faixa} | Valor INSS R$ ${valorINSS}`);
     
         return Math.round((valorINSS + Number.EPSILON) * 100) / 100;
     }
-}
-
-const obtemRangeINSS = () => {
-    let range = [];
-
-    tabelaINSS.forEach(element => {
-        range.push(calcularRange(element.de, element.ate));
-    });
-    range.forEach(item => {
-        console.log(`Range: ${item}`)
-    })
-
-    return range;
-
 }
 
 const tabelaINSS = [
