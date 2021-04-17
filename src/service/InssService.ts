@@ -4,39 +4,25 @@
 export default class SalarioLiquidoService {
 
     public calcular(salarioBruto: number): number {
-        let valorINSS: number = 0.0;
-        let faixa:string;
+        let contribuicaoInss = 0;
 
-        if (salarioBruto <= 1100.00) {
-            faixa = `01 | Alíquota 7.5%`;
-            valorINSS = calcularValorAliquota(salarioBruto, tabelaINSS[0].aliquota);
-        } else if (salarioBruto >= 1100.01 && salarioBruto <= 2203.48) {
-            faixa = `02 | Alíquiota 9.0%`;
-            valorINSS = calcularValorAliquota(tabelaINSS[0].range, tabelaINSS[0].aliquota);
-            valorINSS += calcularValorAliquota(salarioBruto-1100.01,0.09);
-        } else if (salarioBruto >= 2203.49 && salarioBruto <= 3305.22) {
-            faixa = `03 | Alíquiota 12%`;
-            valorINSS = calcularValorAliquota(tabelaINSS[0].range, tabelaINSS[0].aliquota);
-            valorINSS += calcularValorAliquota(tabelaINSS[1].range, tabelaINSS[1].aliquota);
-            valorINSS += calcularValorAliquota(salarioBruto-2203.49,0.12);
-        } else if (salarioBruto >= 3305.23 && salarioBruto <= 6433.57) {
-            faixa = `04 | Alíquota 14%`;
+        console.log(`VALOR BASE: ${salarioBruto}`)
 
-            for (let index = 0; index < 3; index++) {
-                valorINSS += calcularValorAliquota(tabelaINSS[index].range, tabelaINSS[index].aliquota);
-            }
-            valorINSS += calcularValorAliquota(salarioBruto-3305.23,0.14);
-        } else {
-            faixa = 'TETO';
+        let index = 0;
 
-            tabelaINSS.forEach(element => {
-                valorINSS += calcularValorAliquota(element.range, element.aliquota);
-            });
+        while (index <= 3 && tabelaINSS[index].ate < salarioBruto) {
+            const faixaInss = tabelaINSS[index];
+
+            contribuicaoInss += (faixaInss.ate - faixaInss.de) * faixaInss.aliquota;
+            index++
         }
 
-        console.log(`Salário R$ ${salarioBruto} | FAIXA ${faixa} | Valor INSS R$ ${valorINSS}`);
+        if (index <= 3) {
+            const faixa = tabelaINSS[index];
+            contribuicaoInss += (salarioBruto - faixa.de) * faixa.aliquota;
+        }
 
-        return Math.round((valorINSS + Number.EPSILON) * 100) / 100;
+        return Math.round((contribuicaoInss + Number.EPSILON) * 100) / 100;
     }
 }
 
@@ -70,9 +56,3 @@ const tabelaINSS = [
         aliquota: 0.14
     },
 ]
-
-const calcularValorAliquota = (valor: number, aliquota: number) => {
-    const resultado = valor * aliquota;
-
-    return Math.round((resultado + Number.EPSILON) * 100) / 100;
-}
