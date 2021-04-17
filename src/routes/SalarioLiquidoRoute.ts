@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { SalarioBrutoRequestModel } from "../model/SalarioBrutoRequestModel";
+import { SalarioLiquidoRequestModel as SalarioLiquidoRequestModel } from "../model/SalarioRequestRequestModel";
 import { SalarioLiquidoResponseModel } from "../model/SalarioLiquidoResponseModel";
 import SalarioLiquidoService from "../service/SalarioLiquidoService";
 
@@ -16,8 +16,8 @@ export default class SalarioLiquidoRoute {
 
     async calculaSalarioLiquido(req, res) {
 
-        const salarioBruto: SalarioBrutoRequestModel = req.body;
-        
+        const salarioBruto: SalarioLiquidoRequestModel = req.body;
+
         const salarioLiquido: SalarioLiquidoResponseModel = this.salarioLiquidoService.calcular(salarioBruto);
 
         return res.send(salarioLiquido);

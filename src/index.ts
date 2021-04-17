@@ -1,7 +1,5 @@
 import * as healthMid from "@cloudnative/health-connect";
 import express from "express";
-import helmet from 'helmet';
-import { env } from "./env";
 import { healthCheck } from './routes/HealthCheckRoute';
 import SalarioLiquidoRoute from './routes/SalarioLiquidoRoute';
 
@@ -16,8 +14,7 @@ class App {
     }
 
     private config(): void {
-        this.app.use(helmet());
-        this.app.use(function(req, res, next) {
+        this.app.use((_, res, next) => {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
             res.header("Access-Control-Allow-Credentials", "true");
@@ -26,19 +23,18 @@ class App {
             res.header("Access-Control-Expose-Headers", "Authorization");
             next();
         });
-        
-        this.app.set("env", env.node);
+
         this.app.set("case sensitive routing", true);
         this.app.use("/health", healthMid.HealthEndpoint(healthCheck));
         this.app.use(this.salarioLiquidoRoute.getRouter());
         this.app.use(express.json());
 
-        const port = env.app.port;
+        const port = 3000;
         this.app.set("port", port);
 
         this.app.listen(port, () => {
-            console.info(`Aplicação executando na porta ${port}`);            
-        }).on("error", (error: ServerException) => {            
+            console.info(`Aplicação executando na porta ${port}`);
+        }).on("error", (error: ServerException) => {
             console.error(error.message);
         });
     }
