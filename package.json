@@ -2,7 +2,7 @@
     "name": "api-calculo-salario",
     "version": "0.0.1",
     "description": "API de cálculo de salário líquido para contrato CLT",
-    "main": "index.js",
+    "main": "src/index.js",
     "repository": {
         "type": "git",
         "url": "git@github.com:dhsanchesp/api-calculo-salario.git"
@@ -11,51 +11,29 @@
     "license": "MIT",
     "keywords": [],
     "scripts": {
-        "debug": "tsc --project tsconfig.json && node --inspect dist/src/index.js",
-        "local-linux-watch": "nodemon --watch src/ --exec \"npm run local-linux\" -e ts",
-        "local-linux": "tsc --project tsconfig.json && export NODE_ENV=DEV && node dist/src/index.js",
-        "watch-node": "nodemon dist/src/index.js",
-        "watch-ts": "tsc -w --project tsconfig.json",
-        "tst": "tsc --project tsconfig.json && export NODE_ENV=TEST && node dist/src/index.js",
         "start": "tsc --project tsconfig.json && node dist/src/index.js",
         "build": "tsc --project tsconfig.json",
-        "test": "jest"
-    },
-    "jestSonar": {
-        "reportFile": "test-reporter.xml",
-        "indent": 4,
-        "sonar56x": true
+        "test": "jest",
+        "dev": "nodemon --watch \"./\" --exec \"ts-node ./src/index.ts\" -e ts"
     },
     "dependencies": {
         "@cloudnative/health": "^2.1.2",
         "@cloudnative/health-connect": "^2.1.0",
-        "@types/helmet": "0.0.45",
-        "axios": "^0.19.2",
+        "@types/jest": "^26.0.22",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
-        "helmet": "^3.21.3",
+        "jest": "^26.6.3",
         "payload-validator": "^1.0.4",
-        "tslib": "^1.11.1",
-        "winston": "3.2.1"
+        "ts-jest": "^26.5.5",
+        "tslib": "^1.11.1"
     },
     "devDependencies": {
         "@types/express": "^4.17.3",
-        "@types/fs-extra": "^8.1.0",
-        "@types/jest": "^25.1.4",
         "@types/node": "^13.9.0",
-        "@types/shelljs": "^0.8.6",
-        "fs-extra": "^8.1.0",
-        "jest": "25.1.0",
         "jest-html-reporters": "^2.1.1",
         "jest-sonar-reporter": "2.0.0",
-        "nodemon": "2.0.2",
-        "npm-run-all": "4.1.5",
-        "parcel-bundler": "^1.12.4",
-        "rimraf": "3.0.2",
-        "shelljs": "0.8.3",
-        "supertest": "4.0.2",
-        "ts-jest": "^25.2.1",
-        "ts-node": "8.6.2",
+        "nodemon": "^2.0.7",
+        "ts-node": "^8.6.2",
         "tslint": "6.0.0",
         "typescript": "3.8.3"
     }

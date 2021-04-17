@@ -1,44 +1,44 @@
 import * as health from '@cloudnative/health';
-let healthCheck = new health.HealthChecker();
+const healthCheck = new health.HealthChecker();
 
-const startPromise = (): Promise<void> => new Promise(function (resolve, _reject) {
-  setTimeout(function() {
+const startPromise = (): Promise<void> => new Promise((resolve, _reject) => {
+  setTimeout(() => {
     console.log("APP Started");
     resolve();
   }, 10);
 });
 
-let startCheck = new health.StartupCheck("startCheck", startPromise);
+const startCheck = new health.StartupCheck("startCheck", startPromise);
 healthCheck.registerStartupCheck(startCheck);
 
 
-const livePromise = (): Promise<void> => new Promise(function (resolve, _reject) {
-  setTimeout(function() {
+const livePromise = (): Promise<void> => new Promise((resolve, _reject) => {
+  setTimeout(() => {
     console.log("APP is alive");
     resolve();
   }, 10)
 });
 
-let livecheck = new health.LivenessCheck('LivenessCheck', livePromise);
+const livecheck = new health.LivenessCheck('LivenessCheck', livePromise);
 healthCheck.registerLivenessCheck(livecheck);
 
-let shutdownPromise = (): Promise<void> => new Promise(function (resolve, _reject) {
-  setTimeout(function() {
+const shutdownPromise = (): Promise<void> => new Promise((resolve, _reject) => {
+  setTimeout(() => {
     console.log('APP Down');
     resolve();
   }, 10);
 });
-let shutdownCheck = new health.ShutdownCheck('shutdownCheck', shutdownPromise);
+const shutdownCheck = new health.ShutdownCheck('shutdownCheck', shutdownPromise);
 healthCheck.registerShutdownCheck(shutdownCheck);
 
 
-let readyPromise = (): Promise<void> => new Promise(function (resolve, _reject) {
-  setTimeout(function() {
+const readyPromise = (): Promise<void> => new Promise((resolve, _reject) => {
+  setTimeout(() =>  {
     console.log("APP is ready");
     resolve();
   }, 10);
 });
-let readyCheck = new health.ReadinessCheck('readyCheck', readyPromise);
+const readyCheck = new health.ReadinessCheck('readyCheck', readyPromise);
 healthCheck.registerReadinessCheck(readyCheck);
 
 export {health, healthCheck};

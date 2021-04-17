@@ -1,11 +1,10 @@
 import SalarioLiquidoRoute from "../../src/routes/SalarioLiquidoRoute";
 import SalarioLiquidoService from "../../src/service/SalarioLiquidoService";
-import { env } from "../../src/env";
 import HttpResponseMock from "./mock/HttpResponseMock";
 
 jest.mock('../../src/service/SalarioLiquidoService')
 
-const mockedEnv = env as jest.Mocked<typeof env>;
+// const mockedEnv = env as jest.Mocked<typeof env>;
 
 describe('SalarioLiquidoRoute', () => {
 
@@ -17,8 +16,8 @@ describe('SalarioLiquidoRoute', () => {
     const salarioLiquidoRoute = new SalarioLiquidoRoute();
     await salarioLiquidoRoute.calculaSalarioLiquido(mockedHttpRequest, httpResponseMock);
 
-    expect(httpResponseMock.data).toEqual(axiostReponseMock);    
-  }); 
+    expect(httpResponseMock.data).toEqual(axiostReponseMock);
+  });
 
 });
 

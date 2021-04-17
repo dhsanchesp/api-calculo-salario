@@ -1,43 +1,27 @@
 export default class ImpostoRendaService {
 
     /**
-     * 
-     * @param salarioBruto valor do salário Bruto
-     * @param valorINSS valor da contribuição INSS calculado
-     * @param pensaoAlimenticia valor da pensão alimentícia
-     * @param qtdDependentes número de dependentes
-     * @returns 
+     *
+     * @param baseCalculo valor do salário Bruto
+     * @returns o valor do Imposto de Renda calculado
      */
-    public calcular(salarioBruto: number, valorINSS: number, pensaoAlimenticia: number, qtdDependentes: number): number {
-        
-        const baseCalculo = ((salarioBruto - valorINSS) - pensaoAlimenticia) - this.calculaValorDependentes(qtdDependentes);
+    public calcular(baseCalculo: number): number {
 
-        let salarioLiquido = 0;
-
-        if (baseCalculo < tabelaIRRFNormal[0].de) {
-            salarioLiquido = baseCalculo + this.calculaValorDependentes(qtdDependentes);
-        }
+        let vlrImpostoRenda = 0;
 
         tabelaIRRFNormal.forEach(element => {
             if (baseCalculo >= element.de && baseCalculo <= element.ate) {
-
-                salarioLiquido = (baseCalculo * element.aliquota)-element.deducao;
+                vlrImpostoRenda = (baseCalculo * element.aliquota) - element.deducao;
             }
         });
 
-        if (salarioLiquido === 0) {
-            salarioLiquido = (baseCalculo * tabelaIRRFExcecoes.aliquota) - tabelaIRRFExcecoes.deducao;
+        if (vlrImpostoRenda === 0) {
+            vlrImpostoRenda = (baseCalculo * tabelaIRRFExcecoes.aliquota) - tabelaIRRFExcecoes.deducao;
         }
 
-        return Math.round((salarioLiquido + Number.EPSILON) * 100) / 100;
+        return Math.round((vlrImpostoRenda + Number.EPSILON) * 100) / 100;
     }
-
-    private calculaValorDependentes(qtdDependentes) {
-        return qtdDependentes * VLR_POR_DEPENDENTE;
-    }
-    
 }
-
 
 const tabelaIRRFNormal = [
     {
@@ -60,12 +44,9 @@ const tabelaIRRFNormal = [
     }
 ];
 
-const tabelaIRRFExcecoes = 
-    {
-        de: 4664.69,
-        deducao: 869.36,
-        aliquota: 0.275
-    };
-
-
-const VLR_POR_DEPENDENTE = 189.59;
+const tabelaIRRFExcecoes =
+{
+    de: 4664.69,
+    deducao: 869.36,
+    aliquota: 0.275
+};

@@ -1,4 +1,4 @@
-import { SalarioBrutoRequestModel } from "../../src/model/SalarioBrutoRequestModel";
+import { SalarioLiquidoRequestModel } from "../../src/model/SalarioRequestRequestModel";
 import SalarioLiquidoService from "../../src/service/SalarioLiquidoService";
 
 describe('SalarioLiquidoService - calcular Salário Líquido', () => {
@@ -8,9 +8,9 @@ describe('SalarioLiquidoService - calcular Salário Líquido', () => {
         const result = salarioLiquidoService.calcular(defaultRequest);
 
         const expectedResult = {
-            inss: 551.33, 
-            irrf: 364.89, 
-            outrosDescontos: 120.1, 
+            inss: 551.33,
+            irrf: 364.89,
+            outrosDescontos: 120.1,
             salarioBruto: 5000.29,
             salarioLiquido: 3963.97
         }
@@ -24,4 +24,4 @@ const defaultRequest = {
     outrosDescontos: 120.10,
     pensaoAlimenticia: 0.00,
     numeroDependentes: 0,
-} as SalarioBrutoRequestModel;
+} as SalarioLiquidoRequestModel;

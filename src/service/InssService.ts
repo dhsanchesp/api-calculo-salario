@@ -6,7 +6,7 @@ export default class SalarioLiquidoService {
     public calcular(salarioBruto: number): number {
         let valorINSS: number = 0.0;
         let faixa:string;
-    
+
         if (salarioBruto <= 1100.00) {
             faixa = `01 | Alíquota 7.5%`;
             valorINSS = calcularValorAliquota(salarioBruto, tabelaINSS[0].aliquota);
@@ -28,14 +28,14 @@ export default class SalarioLiquidoService {
             valorINSS += calcularValorAliquota(salarioBruto-3305.23,0.14);
         } else {
             faixa = 'TETO';
-            
+
             tabelaINSS.forEach(element => {
-                valorINSS += calcularValorAliquota(element.range, element.aliquota);    
+                valorINSS += calcularValorAliquota(element.range, element.aliquota);
             });
         }
-        
+
         console.log(`Salário R$ ${salarioBruto} | FAIXA ${faixa} | Valor INSS R$ ${valorINSS}`);
-    
+
         return Math.round((valorINSS + Number.EPSILON) * 100) / 100;
     }
 }
@@ -71,14 +71,8 @@ const tabelaINSS = [
     },
 ]
 
-const calcularRange = (valorDe: number, valorAte: number) => {
-    const resultado = valorAte - valorDe;
-
-    return Math.round((resultado + Number.EPSILON) * 100) / 100;
-}
-
 const calcularValorAliquota = (valor: number, aliquota: number) => {
     const resultado = valor * aliquota;
-    
+
     return Math.round((resultado + Number.EPSILON) * 100) / 100;
 }
