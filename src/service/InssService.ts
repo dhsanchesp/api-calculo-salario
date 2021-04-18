@@ -10,7 +10,7 @@ export default class SalarioLiquidoService {
 
         let index = 0;
 
-        while (index <= 3 && tabelaINSS[index].ate < salarioBruto) {
+        while (index < tabelaINSS.length && tabelaINSS[index].ate < salarioBruto) {
             const faixaInss = tabelaINSS[index];
 
             contribuicaoInss += (faixaInss.ate - faixaInss.de) * faixaInss.aliquota;
