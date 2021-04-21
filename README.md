@@ -20,5 +20,5 @@ npm install
 Após a instalação de todas as dependências, basta executar o comando abaixo:
 
 ```
-npm run local-linux
+npm run dev
 ```
